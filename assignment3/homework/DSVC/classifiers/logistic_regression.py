@@ -1,3 +1,4 @@
+# -*-coding:utf-8-*-
 import numpy as np
 import random
 import math
@@ -26,7 +27,27 @@ class LogisticRegression(object):
         # TODO:                                                                 #
         # calculate the loss and the derivative                                 #
         #########################################################################
-        pass
+
+        N = X_batch.shape[0]
+
+        # sigmoid 函数 h_theta = 1 / (1 + e^(-z))
+        z = np.dot(X_batch, self.w)
+        h_theta = 1. / (1. + np.exp(-z))
+
+        # 似然函数 l_theta = y * (log(h_theta)) + (1 - y) * (log(1 - h_theta))
+        log_h = np.log(h_theta)
+        log1_h = np.log(1 - h_theta)
+
+        l_theta = np.sum(y_batch * log_h + (1 - y_batch) * log1_h) / N
+
+        # 损失函数 -- 求解 loss = -y * (log(h_theta)) - (1 - y) * (log(1 - h_theta))
+        loss = -l_theta
+
+        # 梯度 gradient -- grad = (y - h_theta) * X.T
+        # grad = np.sum(np.dot(X_batch.T, y_batch - h_theta)) / N
+        grad = X_batch.T.dot(h_theta - y_batch) / N
+        return loss, grad
+
         #########################################################################
         #                       END OF YOUR CODE                                #
         #########################################################################
@@ -52,6 +73,7 @@ class LogisticRegression(object):
 
         if self.w is None:
             self.w = 0.001 * np.random.randn(dim)
+        print(dim)
 
         loss_history = []
 
@@ -70,7 +92,11 @@ class LogisticRegression(object):
             # Hint: Use np.random.choice to generate indices. Sampling with         #
             # replacement is faster than sampling without replacement.              #
             #########################################################################
-            pass
+
+            sample_index = np.random.choice(num_train,batch_size,replace=False)
+            X_batch = X[sample_index]
+            y_batch = y[sample_index]
+
             #########################################################################
             #                       END OF YOUR CODE                                #
             #########################################################################
@@ -84,7 +110,9 @@ class LogisticRegression(object):
             # TODO:                                                                 #
             # Update the weights using the gradient and the learning rate.          #
             #########################################################################
-            pass
+
+            self.w -= learning_rate * grad
+
             #########################################################################
             #                       END OF YOUR CODE                                #
             #########################################################################
@@ -107,12 +135,17 @@ class LogisticRegression(object):
         array of length N, and each element is an integer giving the predicted
         class.
         """
-        y_pred = np.zeros(X.shape[1])
+        y_pred = np.zeros(X.shape[0])
         ###########################################################################
         # TODO:                                                                   #
         # Implement this method. Store the predicted labels in y_pred.            #
         ###########################################################################
-        pass
+
+        # 数据x进行线性回归 --z_num
+        z_num = X.dot(self.w.T)
+        y_pred = (1 / (1 + np.exp(-z_num)))
+        y_pred = np.around(y_pred)
+
         ###########################################################################
         #                           END OF YOUR CODE                              #
         ###########################################################################
