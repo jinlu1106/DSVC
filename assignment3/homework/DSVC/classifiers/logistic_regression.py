@@ -3,10 +3,12 @@ import numpy as np
 import random
 import math
 
+
 class LogisticRegression(object):
 
     def __init__(self):
         self.w = None
+        # self.ws = None
 
     def loss(self, X_batch, y_batch):
         """
@@ -44,8 +46,9 @@ class LogisticRegression(object):
         loss = -l_theta
 
         # 梯度 gradient -- grad = (y - h_theta) * X.T
-        # grad = np.sum(np.dot(X_batch.T, y_batch - h_theta)) / N
+        # grad = np.sum(np.dot(X_batch.T, y_batch - h_theta)) / N  # 错误，grad是一个一维向量，不需要求和
         grad = X_batch.T.dot(h_theta - y_batch) / N
+
         return loss, grad
 
         #########################################################################
@@ -53,7 +56,7 @@ class LogisticRegression(object):
         #########################################################################
 
     def train(self, X, y, learning_rate=1e-3, num_iters=100,
-            batch_size=200, verbose=True):
+        batch_size = 200, verbose = True):
 
         """
         Train this linear classifier using stochastic gradient descent.
@@ -73,7 +76,6 @@ class LogisticRegression(object):
 
         if self.w is None:
             self.w = 0.001 * np.random.randn(dim)
-        print(dim)
 
         loss_history = []
 
@@ -135,14 +137,14 @@ class LogisticRegression(object):
         array of length N, and each element is an integer giving the predicted
         class.
         """
-        y_pred = np.zeros(X.shape[0])
+        y_pred = np.zeros(X.shape[1])
         ###########################################################################
         # TODO:                                                                   #
         # Implement this method. Store the predicted labels in y_pred.            #
         ###########################################################################
 
         # 数据x进行线性回归 --z_num
-        z_num = X.dot(self.w.T)
+        z_num = X.dot(self.w)
         y_pred = (1 / (1 + np.exp(-z_num)))
         y_pred = np.around(y_pred)
 
