@@ -8,7 +8,6 @@ class LogisticRegression(object):
 
     def __init__(self):
         self.w = None
-        # self.ws = None
 
     def loss(self, X_batch, y_batch):
         """
@@ -119,7 +118,7 @@ class LogisticRegression(object):
             #                       END OF YOUR CODE                                #
             #########################################################################
 
-            if verbose and it % 100 == 0:
+            if verbose and it % 1000 == 0:
                 print 'iteration %d / %d: loss %f' % (it, num_iters, loss)
 
         return loss_history
