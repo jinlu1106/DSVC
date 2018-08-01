@@ -1,8 +1,7 @@
 from __future__ import print_function
-
 import numpy as np
 from DSVC.classifiers.linear_svm import *
-from past.builtins import xrange
+# from past.builtins import xrange
 
 
 class LinearClassifier(object):
@@ -38,7 +37,7 @@ class LinearClassifier(object):
 
         # Run stochastic gradient descent to optimize W
         loss_history = []
-        for it in xrange(num_iters):
+        for it in range(num_iters):
 
             X_batch = None
             y_batch = None
@@ -130,4 +129,3 @@ class LinearSVM(LinearClassifier):
 
     def loss(self, X_batch, y_batch, reg):
         return svm_loss_vectorized(self.W, X_batch, y_batch, reg)
-        

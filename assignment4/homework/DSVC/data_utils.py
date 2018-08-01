@@ -1,9 +1,11 @@
 from __future__ import print_function
 
-from six.moves import cPickle as pickle
+# from six.moves import cPickle as pickle
+import pickle
 import numpy as np
 import os
-from scipy.misc import imread
+# from scipy.misc import imread
+from scipy.misc.pilutil import imread
 import platform
 
 def load_pickle(f):
